@@ -7,7 +7,61 @@
     <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'>
     <link rel='apple-touch-icon' href='favicon.png'>
 </head>
-<body>
-HelloWorld
+<body id='app'>
+
+<div class='container'>
+
+    <div class='search'>
+        <div class='header'>
+            <form>
+                <input type='text' aria-label='搜索框'
+                       placeholder='请输入搜索内容，或按下回车进入偏好设置。'>
+            </form>
+            <span class='search-engine-tip'>
+                按下 Tab 切换为百度
+            </span>
+        </div>
+        <div class='suggestion'>
+            <div class='suggestion-item'>
+                <span class='suggestion-value'>预测输入</span>
+                <span class='suggestion-icon'></span>
+            </div>
+        </div>
+    </div>
+
+    <div class='preferences'>
+        <div class='header'>
+            <span class='icon icon-back'></span>
+            <span class='light'>偏好设置</span>
+        </div>
+        <div class='content'>
+            <div class='preferences-list'>
+                <span class='preferences-item'>搜索引擎</span>
+                <span class='preferences-item'>样式</span>
+                <span class='preferences-item'>缓存与导出</span>
+                <span class='preferences-item'>关于</span>
+            </div>
+            <div class='preferences-content'>
+
+            </div>
+            <div class='preferences-content'>
+
+            </div>
+            <div class='preferences-content'>
+
+            </div>
+            <div class='preferences-content'>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<img id='wallpaper' v-bind:src='config.wallpaper' alt='壁纸'>
+<div id='footer' v-if='config.isICPShow'>
+    <a class='icp' href='https://www.beian.gov.cn' target='_blank'>浙ICP备18010671号-6</a>
+</div>
+
 </body>
 </html>

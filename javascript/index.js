@@ -61,7 +61,7 @@ const baiduSuggestion = {
 const vm = Vue.createApp({
     data() {
         return {
-            pageCurrent: 1,
+            pageCurrent: 0,
             search: {
                 input: '',
                 suggestion: [],

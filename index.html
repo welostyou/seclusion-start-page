@@ -33,7 +33,7 @@
                 按下 Tab 切换为{{config.engine[search.engineTip].name}}
             </span>
         </div>
-        <div class='suggestion'>
+        <div class='suggestion' v-show='search.suggestion.length!==0'>
             <div :class='{"suggestion-selected":search.suggestionCurrent===index}'
                  @mouseover='search.suggestionCurrent=index'
                  v-for='(item,index) in search.suggestion' :key='index'

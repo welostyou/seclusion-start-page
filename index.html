@@ -113,9 +113,10 @@
                 </div>
                 <p class='light' style='padding-top: 16px'>鼠标左键点击设置壁纸，右键点击删除壁纸。</p>
                 <div class='btns'>
+                    <input class='wallpaper-add' placeholder='输入图片链接' type='text' aria-label='壁纸'>
                     <div @click='configWallpaperAdd' class='button'>
                         <span class='icon icon-plus'></span>
-                        <span>上传壁纸</span>
+                        <span>添加壁纸</span>
                     </div>
                     <div @click='configICPShowSet' class='button'>
                         <span v-if='this.config.isICPShow' class='icon icon-no-selected'></span>

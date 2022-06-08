@@ -61,7 +61,7 @@ const baiduSuggestion = {
 const vm = Vue.createApp({
     data() {
         return {
-            pageCurrent: -1,
+            pageCurrent: 1,
             search: {
                 input: '',
                 suggestion: [],
@@ -140,21 +140,10 @@ const vm = Vue.createApp({
             this.saveConfigToStorage()
         },
         configWallpaperAdd() {
-            // 上传图片并获取Base64
-            const input = document.createElement('input')
-            input.type = 'file'
-            input.accept = 'image/*'
-            input.onchange = e => {
-                const file = e.target.files[0]
-                const reader = new FileReader()
-                reader.onload = e => {
-                    const base64 = e.target.result
-                    this.config.wallpapers.push(base64)
-                    this.saveConfigToStorage()
-                }
-                reader.readAsDataURL(file)
-            }
-            input.click()
+            const url = document.querySelector('.preferences-block .wallpaper-add').value
+            if (url === '') return
+            this.config.wallpapers.push(url)
+            this.saveConfigToStorage()
         },
         configEngineMenuShow(index, e) {
             this.preferences.engine.current = index

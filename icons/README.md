@@ -5,5 +5,5 @@
 
 ### 使用方式
 
-1. 在`scss`文件中引入： `@import "/icons/icon";`
+1. 在`scss`文件中引入，如 `@import "/icons/index";`
 2. 设置类名为 `icon icon-名称`，如 `icon icon-back`。

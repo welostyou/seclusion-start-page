@@ -1,0 +1,120 @@
+.preferences-engine-item {
+    display: flex;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px;
+    @extend .none-select;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:first-child {
+        height: auto;
+        line-height: normal;
+        margin-top: 6px;
+        margin-bottom: 12px;
+        cursor: default;
+
+        span {
+            &:first-child {
+                border-left: 1px solid rgba($color: #ffffff, $alpha: .1);
+            }
+
+            color: rgba($color: #ffffff, $alpha: .4);
+            border-right: 1px solid rgba($color: #ffffff, $alpha: .1);
+        }
+    }
+
+    &:nth-child(even) {
+        background: rgba($color: #ffffff, $alpha: .05);
+    }
+
+    & span {
+        padding-left: 16px;
+        font-family: monospace;
+        color: rgba($color: #ffffff, $alpha: .6);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .name {
+        width: 100px;
+    }
+
+    .alias {
+        width: 80px;
+    }
+
+    .url {
+        flex: 1;
+    }
+}
+
+.preferences-engine-set {
+
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+
+    .block {
+        position: absolute;
+
+        background: rgba($color: #000000, $alpha: .4);
+        backdrop-filter: blur(60px);
+        -webkit-backdrop-filter: blur(60px);
+        border-radius: 10px;
+        border: 1px solid rgba($color: #ffffff, $alpha: .2);
+        box-shadow: 0 5px 10px rgba($color: #000000, $alpha: .2);
+
+        padding: 8px;
+
+        .item {
+            display: flex;
+            height: 32px;
+            align-items: center;
+            padding: 0 8px;
+            border-radius: 6px;
+
+            &:hover {
+                cursor: pointer;
+                background: rgba($color: #ffffff, $alpha: .1);
+            }
+
+            .icon {
+                margin-right: 8px;
+            }
+        }
+    }
+}
+
+.preferences-engine-add {
+    display: flex;
+    height: 34px;
+    margin: 24px 0 32px 0;
+
+    border-radius: 6px;
+    padding: 0 0 0 12px;
+    background: rgba($color: #ffffff, $alpha: .1);
+    border: 1px solid rgba($color: #ffffff, $alpha: .1);
+
+    input {
+        margin-right: 12px;
+        border-right: 1px solid rgba($color: #ffffff, $alpha: .1);
+
+        &:last-of-type {
+            margin-right: 0 !important;
+        }
+    }
+
+    .icon {
+        cursor: pointer;
+        font-size: 12px;
+        height: 34px;
+        width: 34px;
+        line-height: 34px;
+        text-align: center;
+    }
+}

@@ -1,0 +1,72 @@
+@import "../icons/index";
+@import "default";
+@import "block_search";
+@import "block_preferences";
+
+.search .engine,
+.container,
+.footer .icp {
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
+    background: rgba($color: #000000, $alpha: .4);
+    border: 1px solid rgba($color: #ffffff, $alpha: .2);
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    text-align: center;
+    padding-bottom: 8px;
+
+    .icp {
+        display: inline-block;
+        letter-spacing: 1px;
+        padding: 4px 7px 4px 8px;
+        border-radius: 6px;
+        box-shadow: 0 10px 20px rgba($color: #000000, $alpha: .3);
+    }
+}
+
+.wallpaper {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    z-index: -1;
+    display: block;
+    object-fit: cover;
+}
+
+.container {
+    transition-property: width, height;
+    transition-duration: .6s;
+    transition-timing-function: ease-in-out;
+
+    position: relative;
+    z-index: 99;
+    margin: 12vh auto 0 auto;
+    border-radius: 8px;
+    max-width: 80vw;
+    max-height: calc(88vh - 70px);
+
+    box-shadow: 0 10px 20px rgba($color: #000000, $alpha: .3);
+
+    .search, .preferences {
+        height: 100%;
+        width: 100%;
+    }
+
+    .header {
+        display: flex;
+        height: 42px;
+        line-height: 42px;
+    }
+
+    .suggestion,
+    .content {
+        height: calc(100% - 42px - 1px - 16px);
+        padding: 8px;
+        border-top: 1px solid rgba($color: #ffffff, $alpha: .1);
+    }
+}

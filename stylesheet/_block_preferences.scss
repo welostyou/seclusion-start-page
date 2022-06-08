@@ -1,0 +1,64 @@
+.preferences {
+    .header {
+        .icon-back {
+            padding: 0 18px;
+            font-size: 18px;
+        }
+
+        .title {
+            flex: 1;
+        }
+    }
+
+    .content {
+        display: flex;
+
+        .preferences-list {
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            margin-right: 42px;
+            height: 100%;
+
+            .preferences-item {
+                height: 28px;
+                line-height: 28px;
+                padding: 0 10px;
+                cursor: pointer;
+                border-radius: 6px;
+                letter-spacing: .5px;
+
+                &:not(:last-child) {
+                    margin-bottom: 8px;
+                }
+
+                &.preferences-item-selected,
+                &:hover {
+                    background: rgba($color: #ffffff, $alpha: .1);
+                }
+            }
+        }
+
+        .preferences-block {
+            overflow-y: auto;
+            flex: 1;
+
+            @import "block_preferences_engine";
+            @import "block_preferences_wallpapers";
+
+            p.light {
+                padding-bottom: 16px;
+            }
+
+            .btns {
+                display: flex;
+
+                .button {
+                    margin-right: 12px;
+                }
+            }
+
+        }
+    }
+
+}

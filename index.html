@@ -6,62 +6,153 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'>
     <link rel='apple-touch-icon' href='favicon.png'>
+    <link rel='stylesheet' href='./stylesheet/index.css'>
 </head>
 <body id='app'>
 
-<div class='container'>
+<div class='container' :style='containerSizeCalculate'>
 
-    <div class='search'>
+    <div class='search' v-show='pageCurrent===-1'>
+
+        <div class='engine none-select' v-show='search.engine!==0'>
+            {{config.engine[search.engine].name}}
+        </div>
+
         <div class='header'>
-            <form>
-                <input type='text' aria-label='搜索框'
+            <form class='search-form' @submit.prevent='inputSubmit'>
+                <input @keydown.esc='inputKeyDown'
+                       @keydown.delete='inputKeyDown'
+                       @keydown.tab.prevent='inputKeyDown'
+                       @keydown.down.prevent='inputKeyDown'
+                       @keydown.up.prevent='inputKeyDown'
+                       v-model='search.input'
+                       class='search-input' type='text' aria-label='搜索框'
                        placeholder='请输入搜索内容，或按下回车进入偏好设置。'>
             </form>
-            <span class='search-engine-tip'>
-                按下 Tab 切换为百度
+            <span v-show='search.engineTip!==0' class='search-engine-tip light none-select'>
+                按下 Tab 切换为{{config.engine[search.engineTip].name}}
             </span>
         </div>
         <div class='suggestion'>
-            <div class='suggestion-item'>
-                <span class='suggestion-value'>预测输入</span>
-                <span class='suggestion-icon'></span>
+            <div :class='{"suggestion-selected":search.suggestionCurrent===index}'
+                 @mouseover='search.suggestionCurrent=index'
+                 v-for='(item,index) in search.suggestion' :key='index'
+                 class='suggestion-item none-select'>
+                <span>{{item}}</span>
+                <span v-show='search.suggestionCurrent===index'
+                      class='icon icon-return'></span>
             </div>
         </div>
     </div>
 
-    <div class='preferences'>
+    <div class='preferences' v-show='pageCurrent>=0'>
         <div class='header'>
-            <span class='icon icon-back'></span>
-            <span class='light'>偏好设置</span>
+            <span @click='pageCurrent=-1' class='icon icon-back'></span>
+            <span class='title none-select'>偏好设置</span>
         </div>
         <div class='content'>
             <div class='preferences-list'>
-                <span class='preferences-item'>搜索引擎</span>
-                <span class='preferences-item'>样式</span>
-                <span class='preferences-item'>缓存与导出</span>
-                <span class='preferences-item'>关于</span>
+                <span v-for='(item, index) in preferences.list' :key='index'
+                      :class='{"preferences-item-selected":index===pageCurrent}'
+                      @click='pageCurrent=index'
+                      class='preferences-item none-select'>{{item}}</span>
             </div>
-            <div class='preferences-content'>
+            <div class='preferences-block' v-show='pageCurrent===0'>
+                <div class='preferences-engine-item'>
+                    <span class='name'>名称</span>
+                    <span class='alias'>别名</span>
+                    <span class='url'>链接</span>
+                </div>
+                <div v-for='(item, index) in config.engine' :key='index'
+                     @click.right.prevent='configEngineMenuShow(index,$event)'
+                     class='preferences-engine-item'>
+                    <span class='name'>{{item.name}}</span>
+                    <span class='alias'>{{item.alias}}</span>
+                    <span class='url'>{{item.url}}</span>
+                </div>
+                <div v-if='preferences.engine.position !== null'
+                     @click='preferences.engine={current:-1,position:null}'
+                     class='preferences-engine-set none-select'>
+                    <div class='block'
+                         :style='{
+                            "top":preferences.engine.position.y + "px",
+                            "left":preferences.engine.position.x + "px"
+                        }'>
+                        <div @click='configEngineMenuSelect("top")'
+                             v-show='preferences.engine.current!==0'
+                             class='item'>
+                            <span class='icon icon-top'></span>
+                            <span>置顶</span>
+                        </div>
+                        <div @click='configEngineMenuSelect("remove")' class='item'>
+                            <span class='icon icon-trash'></span>
+                            <span>删除</span>
+                        </div>
+                    </div>
+                </div>
+                <p class='light' style='padding-top: 32px'>鼠标右键单击触发选项：其中「置顶」代表设置为默认搜索引擎；</p>
+
+                <div class='preferences-engine-add'>
+                    <input type='text' name='name' style='flex:1' aria-label='名称' placeholder='名称'>
+                    <input type='text' name='alias' style='flex:1' aria-label='别名' placeholder='别名'>
+                    <input type='text' name='url' style='flex:3' aria-label='链接' placeholder='链接：使用{query}替换搜索内容'>
+                    <span @click='configEngineAdd' class='icon icon-plus'></span>
+                </div>
 
             </div>
-            <div class='preferences-content'>
-
+            <div class='preferences-block' v-show='pageCurrent===1'>
+                <div class='wallpapers'>
+                    <div v-for='(item, index) in config.wallpapers'
+                         :key='index'
+                         class='img-box'>
+                        <img @click.left='configWallpaperSet(index,"select")'
+                             @click.right.prevent='configWallpaperSet(index,"remove")'
+                             :src='item' alt='壁纸'>
+                        <span v-if='config.wallpaper===item' class='icon icon-check'></span>
+                    </div>
+                </div>
+                <p class='light' style='padding-top: 16px'>鼠标左键点击设置壁纸，右键点击删除壁纸。</p>
+                <div class='btns'>
+                    <div @click='configWallpaperAdd' class='button'>
+                        <span class='icon icon-plus'></span>
+                        <span>上传壁纸</span>
+                    </div>
+                    <div @click='configICPShowSet' class='button'>
+                        <span v-if='this.config.isICPShow' class='icon icon-no-selected'></span>
+                        <span v-else class='icon icon-selected'></span>
+                        <span>更干净的主页</span>
+                    </div>
+                </div>
             </div>
-            <div class='preferences-content'>
-
-            </div>
-            <div class='preferences-content'>
-
+            <div class='preferences-block' v-show='pageCurrent===2'>
+                <p class='light' style='padding-top: 8px'>所有设置均存放在浏览器本地，您可以导出或导入配置。</p>
+                <div class='btns'>
+                    <div class='button' @click='configBackup("export")'>
+                        <span class='icon icon-export'></span>
+                        <span>导出设置</span>
+                    </div>
+                    <div class='button' @click='configBackup("import")'>
+                        <span class='icon icon-import'></span>
+                        <span>导入设置</span>
+                    </div>
+                </div>
+                <p class='light' style='padding-top: 32px'>清理缓存会使页面恢复到初始状态，该操作将丢失所有的搜索引擎与样式设置，请谨慎操作。</p>
+                <div @click='configClearCache' class='button'>
+                    <span>清理缓存</span>
+                </div>
             </div>
         </div>
     </div>
 
 </div>
 
-<img id='wallpaper' v-bind:src='config.wallpaper' alt='壁纸'>
-<div id='footer' v-if='config.isICPShow'>
-    <a class='icp' href='https://www.beian.gov.cn' target='_blank'>浙ICP备18010671号-6</a>
+<img class='wallpaper' :src='config.wallpaper' alt='壁纸'>
+<div class='footer' v-if='config.isICPShow'>
+    <a class='icp light' href='https://www.beian.gov.cn' target='_blank'>浙ICP备18010671号-6</a>
 </div>
+
+<script src='./javascript/vue.global.prod.js'></script>
+<script src='./javascript/index.min.js'></script>
 
 </body>
 </html>

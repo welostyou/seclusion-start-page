@@ -1,0 +1,62 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    color: rgba($color: #ffffff, $alpha: .9);
+}
+
+body {
+    background: #191919;
+    overflow: hidden;
+    font-family: Inter, "SF Pro Display", -apple-system, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.none-select {
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.light {
+    @extend .none-select;
+    color: rgba($color: #ffffff, $alpha: .4);
+    font-size: 12px;
+}
+
+.button {
+    transition: background .2s ease-in-out;
+
+    @extend .none-select;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    white-space: nowrap;
+    width: min-content;
+    padding: 8px 12px;
+    background: rgba($color: #ffffff, $alpha: .1);
+    border: 1px solid rgba($color: #ffffff, $alpha: .1);
+    cursor: pointer;
+
+    &:hover {
+        background: rgba($color: #ffffff, $alpha: .08);
+    }
+
+    .icon {
+        font-size: 12px;
+        margin-right: 8px;
+    }
+
+}
